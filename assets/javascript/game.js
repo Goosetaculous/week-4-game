@@ -136,11 +136,13 @@ $(document).ready(function(){
 
             if(opponentDefeated(parseInt(opponentHealth-player.attack))){
                 $(".opponent-side").empty()
-
-
             }
             $(".player-side div:eq(1)").html(playerHealth-opponent.attack)
-            
+
+            if(opponentDefeated(parseInt(playerHealth-opponent.attack))){
+                $(".player-side").empty()
+            }
+
 
         }
     })
