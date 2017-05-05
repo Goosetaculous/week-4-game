@@ -9,6 +9,7 @@ $(document).ready(function(){
      * @returns {*} an object character or array of carachers
      */
     var saiyan=1
+    var win=1
 
     function setCharacters(rqst){
         var goku ={
@@ -17,7 +18,7 @@ $(document).ready(function(){
         }
         var gohan ={
             id     : "gohan",
-            attack : 15
+            attack : 20
         }
         var vegeta ={
             id     : "vegeta",
@@ -26,11 +27,16 @@ $(document).ready(function(){
         }
         var trunks ={
             id     : "trunks",
-            attack : 12
+            attack : 22
         }
         var broly ={
             id     : "broly",
             attack : 27
+        }
+
+        var krillin ={
+            id     : "krillin",
+            attack : 15
         }
 
         switch (rqst){
@@ -45,6 +51,9 @@ $(document).ready(function(){
                 break;
             case "trunks":
                 return trunks
+                break;
+            case "krillin":
+                return krillin
                 break;
             case "broly":
                 return broly
@@ -112,6 +121,8 @@ $(document).ready(function(){
         }else if ($(".opponent-side").children().length == 0){
             $(this).appendTo(".opponent-side").addClass("opponent")
         }
+        $("#goku-health").show()
+
     })
 
     $("#broly").on("click",function(){
@@ -121,7 +132,9 @@ $(document).ready(function(){
         }else if ($(".opponent-side").children().length == 0){
             $(this).appendTo(".opponent-side").addClass("opponent")
         }
+        $("#broly-health").show()
     })
+
 
 
     $("#gohan").on("click",function(){
@@ -132,6 +145,7 @@ $(document).ready(function(){
         }else  if ($(".opponent-side").children().length == 0){
             $(this).appendTo(".opponent-side").addClass("opponent")
         }
+        $("#gohan-health").show()
     })
     $("#vegeta").on("click",function(){
         var player = setCharacters("vegeta")
@@ -140,8 +154,23 @@ $(document).ready(function(){
         }else  if ($(".opponent-side").children().length == 0){
             $(this).appendTo(".opponent-side").addClass("opponent")
         }
+        $("#vegeta-health").show()
+
 
     })
+
+    $("#krillin").on("click",function(){
+        var player = setCharacters("vegeta")
+        if ($(".player-side").children().length == 0){
+            $(this).appendTo(".player-side").addClass("player")
+        }else  if ($(".opponent-side").children().length == 0){
+            $(this).appendTo(".opponent-side").addClass("opponent")
+        }
+        $("#krillin-health").show()
+
+    })
+
+
     $("#trunks").on("click",function(){
         var player = setCharacters("trunks")
         if ($(".player-side").children().length == 0){
@@ -149,10 +178,12 @@ $(document).ready(function(){
         }else if ($(".opponent-side").children().length == 0){
             $(this).appendTo(".opponent-side").addClass("opponent")
         }
+        $("#trunks-health").show()
     })
 
     $("button.attack").on("click", function(){
        //check first if both sides are filled with characters
+        console.log(win)
 
         if(arenaIsFilled()){
 
@@ -160,14 +191,19 @@ $(document).ready(function(){
             var opponent = setCharacters($(".opponent-side").children().attr('id'))
             var playerHealth = parseInt($(".player-side").children().text())
             var opponentHealth = parseInt($(".opponent-side").children().text())
-            console.log(saiyan)
+
             $(".opponent-side div:eq(1)").html(opponentHealth-(player.attack*saiyan))
-            console.log(opponentHealth-(player.attack*saiyan))
+
             attacklog(player.id,opponent.id,(player.attack*saiyan))
 
-            if(opponentDefeated(parseInt(opponentHealth-player.attack))){
+            if(opponentDefeated(parseInt(opponentHealth-(player.attack*saiyan)))){
                 $(".opponent-side").empty()
+                win++
                 saiyan=saiyan*2
+               if(win == 6){
+                   $(".lost").html(player.id + " won")
+
+               }
             }
             $(".player-side div:eq(1)").html(playerHealth-opponent.attack)
             counterlog(opponent.id,player.id,opponent.attack)
@@ -179,11 +215,6 @@ $(document).ready(function(){
                 $(".attack").hide("slow")
                 $(".restart").show("slow")
             }
-
-
-
-
-
         }
     })
 });
