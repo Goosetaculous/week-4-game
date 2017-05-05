@@ -11,4 +11,12 @@
     margin-right: auto;
 }
 
+.restart {
+    display:none;
+}
+
+.jumbotron {
+    text-align: center;
+    background-color: #49bbd9;
+}
 

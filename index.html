@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
@@ -12,10 +13,10 @@
 </head>
 <body>
     <header>
-        <div class="container">
+        <div class="container logo">
             <div class="jumbotron">
-                <h1>Dragon Ball G</h1>
-                <p>KAMEHAME ha!.</p>
+                <img class="logo" src="http://dragonball.sullca.com/wp-content/uploads/2015/07/Dragon-Ball-Super-online.jpg" />
+
             </div>
         </div>
     </header>
@@ -27,6 +28,12 @@
                     <div class="character" id="goku">
                         <img src="https://68.media.tumblr.com/avatar_a5d38ba8f6b7_128.png"/>
                         <div class="health" id="goku-health">200</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="character" id="broly">
+                        <img src="https://68.media.tumblr.com/avatar_498b2194f97c_128.png"/>
+                        <div class="health" id="broly-health">250</div>
                     </div>
                 </li>
                 <li>
@@ -62,6 +69,11 @@
         </div>
     </div>
     <button class="attack">Attack</button>
-    <footer></footer>
+    <button class="restart">Restart</button>
+    <footer>
+        <div id="attack-log"></div>
+        <div id="counter-attack-log"></div>
+        <div id="lost"></div>
+    </footer>
 </body>
 </html>
