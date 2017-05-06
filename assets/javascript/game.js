@@ -6,36 +6,39 @@ $(document).ready(function(){
     /**
      *
      * @param  - requested character
-     * @returns {*} an object character or array of carachers
+     * @returns {*} an object character or array of characters
      */
     var saiyan=1
-    var win=1
+    var increase =1
+    var win=0
 
     function setCharacters(rqst){
         var goku ={
-            id     : "goku",
+            id     : "Goku",
+
             attack : 20
         }
         var gohan ={
-            id     : "gohan",
+            id     : "Gohan",
+            gif     : "https://media.giphy.com/media/dFhhNrjqikhC8/giphy.gif",
             attack : 20
         }
         var vegeta ={
-            id     : "vegeta",
+            id     : "Vegeta",
 
             attack : 25
         }
         var trunks ={
-            id     : "trunks",
+            id     : "Trunks",
             attack : 22
         }
         var broly ={
-            id     : "broly",
+            id     : "Broly",
             attack : 27
         }
 
         var krillin ={
-            id     : "krillin",
+            id     : "Krillin",
             attack : 15
         }
 
@@ -95,11 +98,15 @@ $(document).ready(function(){
      * @param attack
      */
     function attacklog(player,enemy, attack){
-        $("#attack-log").html("<h3>" + player + " attacked "+ enemy +" with "+ attack +" power</h3>")
+
+        $("#attack-log").html("<h4><span style='color:blue;'><b>" + player + " </b></span>attacked "+ enemy +" with "+ attack +" power</h4>")
+
     }
 
     function counterlog(enemy,player,defend){
-        $("#counter-attack-log").html("<h3>" + enemy + " countered  "+ player +" with counter attack of "+ defend +" power</h3>")
+
+        $("#counter-attack-log").html("<h4>" + enemy + " countered  "+ player +" with counter attack of "+ defend +" power</h4>")
+
     }
 
     /**
@@ -182,36 +189,43 @@ $(document).ready(function(){
     })
 
     $("button.attack").on("click", function(){
-       //check first if both sides are filled with characters
-        console.log(win)
-
+        increase= increase + 3
         if(arenaIsFilled()){
-
             var player = setCharacters($(".player-side").children().attr('id'))
             var opponent = setCharacters($(".opponent-side").children().attr('id'))
             var playerHealth = parseInt($(".player-side").children().text())
             var opponentHealth = parseInt($(".opponent-side").children().text())
 
-            $(".opponent-side div:eq(1)").html(opponentHealth-(player.attack*saiyan))
+            $(".opponent-side div:eq(1)").html(opponentHealth-((player.attack + increase)*saiyan))
+            $(".opponent-side div:eq(3)").width(opponentHealth-((player.attack + increase)*saiyan)+'%')
 
-            attacklog(player.id,opponent.id,(player.attack*saiyan))
+            attacklog(player.id,opponent.id,((player.attack + increase)*saiyan))
 
-            if(opponentDefeated(parseInt(opponentHealth-(player.attack*saiyan)))){
+            if(opponentDefeated(parseInt(opponentHealth-((player.attack + increase)*saiyan)))){
                 $(".opponent-side").empty()
                 win++
                 saiyan=saiyan*2
-               if(win == 6){
-                   $(".lost").html(player.id + " won")
+                $("#counter-attack-log").html("<h4>"+opponent.id + " has been defeated. Pick another enemy</h4>")
+
+               if(win === 5){
+                   $("#attack-log").html("<h2>"+player.id + " won</h2>")
+                   $("#attack-log").show()
+                   $(".restart").show("slow")
 
                }
             }
             $(".player-side div:eq(1)").html(playerHealth-opponent.attack)
-            counterlog(opponent.id,player.id,opponent.attack)
+            $(".player-side div:eq(3)").width(playerHealth-opponent.attack+'%')
+
+            if($(".opponent-side").children().length > 0){
+                counterlog(opponent.id,player.id,opponent.attack)
+            }
+
 
 
             if(opponentDefeated(parseInt(playerHealth-opponent.attack))){
                 $(".player-side").empty()
-                $("#lost").html("<h1>You're defeated by " + opponent.id+" </h1>")
+                $("#lost").append("<h1>You're defeated by " + opponent.id+" </h1>")
                 $(".attack").hide("slow")
                 $(".restart").show("slow")
             }
